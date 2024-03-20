@@ -8,7 +8,7 @@ const { MARKET_STATE_LAYOUT_V3, OPEN_ORDERS_LAYOUT_V2 } = require('./layouts/ope
 const { ReserveLayout, ReserveLayoutLarix, MintLayout, AccountLayout, TokenSwapLayout, ESOLStakePoolLayout, } = require('./layouts/mixed-layout');
 const { SCN_STAKE_POOL } = require("./layouts/scnSOL");
 const { SANCTUM_INFINITY } = require("./layouts/sanctum-infinity-layout");
-const { SANCTUM_LST_STATE_LIST } = require("./layouts/sanctum-validators-lsts-layout");
+const { parseSanctumLstStateList } = require("./layouts/sanctum-validators-lsts-layout");
 
 
 const parseReserve = (info) => {
@@ -57,7 +57,7 @@ const customDecoders = {
   fluxbeam: defaultParseLayout(TokenSwapLayout),
   phoenix: parsePhoenix,
   sanctumInfinity: defaultParseLayout(SANCTUM_INFINITY),
-  sanctumLstStateList: defaultParseLayout(SANCTUM_LST_STATE_LIST),
+  sanctumValidatorLsts: parseSanctumLstStateList,
 };
 
 function decodeAccount(layout, accountInfo) {

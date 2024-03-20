@@ -16,22 +16,28 @@ const {
   option,
 } = require("./layout-base");
 
-const SANCTUM_LST_STATE = [
+const SANCTUM_LST_STATE = struct([
   u8("isInputDisabled"),
   u8("poolReservesBump"),
   u8("protocolFeeAccumulatorBump"),
-  u8("padding"),
+  seq(u8("padding"), 5),
   u64("solValue"),
   publicKey("mint"),
   publicKey("solValueCalculator"),
-];
+]);
 
-const SANCTUM_LST_STATE_LIST = seq(
-  struct(SANCTUM_LST_STATE),
-  1,
-  "lstStateList"
-);
+const parseSanctumLstStateList = (account) => {
+  const { data, space } = account;
+  const buffer = Buffer.from(data);
+  const length = space / 80;
+  return seq(
+    SANCTUM_LST_STATE,
+    length,
+    "lstStateList"
+  ).decode(buffer);
+}
+
 
 module.exports = {
-  SANCTUM_LST_STATE_LIST,
+  parseSanctumLstStateList,
 };
